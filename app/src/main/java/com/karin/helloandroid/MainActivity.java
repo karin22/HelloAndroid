@@ -2,6 +2,8 @@ package com.karin.helloandroid;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,54 +23,47 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 public class MainActivity extends AppCompatActivity {
-
-    public static final String EXTRA_MESSAGE = "com.karin.helloandroid.MESSAGE";
     private FirebaseAuth mAuth;
+
+
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        testFirestore();
+//        testFireStore();
+        mAuth = FirebaseAuth.getInstance();
     }
     public void openListpage(View view){
 
-        Intent intent = new Intent(this, ListActivity.class);
-        startActivity(intent);
-
+        setContentView(R.layout.activity_list);
+       
     }
 
-
-//    public void sendMessage(View view){
-//        Intent intent = new Intent(this, DisplayNameActivity.class);
-//        EditText editText =  findViewById(R.id.editText);
-//        String message = editText.getText().toString();
 //
-//        Log.d("editText",message);
-//
-//        intent.putExtra(EXTRA_MESSAGE, message);
-//        startActivity(intent);
-//        Toast.makeText(getApplicationContext(),"Send Message Clicked",Toast.LENGTH_SHORT).show();
-//
+//    private void testFireStore(){
+//        final String TAG = "testFireStore";
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        db.collection("recommended")
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                Log.d(TAG, document.getId() + " => " + document.getData());
+//                            }
+//                        } else {
+//                            Log.w(TAG, "Error getting documents.", task.getException());
+//                        }
+//                    }
+//                });
 //    }
-    public void testFirestore(){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final String TAG= "testFirestore";
-        db.collection("recommanded")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                            }
-                        } else {
-                            Log.w(TAG, "Error getting documents.", task.getException());
-                        }
-                    }
-                });
-
-    }
 
     public void signInClick(View view){
         final String TAG = "signInClick";
@@ -79,14 +74,13 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
+//                             Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
-
                         } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+//                             If sign in fails, display a message to the user.
+                                    Log.w(TAG, "signInWithEmail:failure");
                             Toast.makeText(MainActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
@@ -126,3 +120,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
+
+
