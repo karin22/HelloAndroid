@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     public void openListpage(View view){
 
         setContentView(R.layout.activity_list);
-       
+
     }
 
 //
